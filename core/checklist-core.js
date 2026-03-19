@@ -231,11 +231,16 @@ window.ChecklistCore = (() => {
               <div class="form-row">
                 <div class="form-group">
                   <label>Mobile Number *</label>
-                  <input type="text" id="f-mobile" inputmode="numeric" maxlength="10" placeholder="0831234567" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
+                  <input type="text" id="f-mobile" inputmode="numeric" maxlength="10" placeholder="0831234567"
+                    oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                    onblur="ChecklistCore.validateField(this,'mobile')" />
+                  <span class="field-error" id="err-mobile"></span>
                 </div>
                 <div class="form-group">
                   <label>Email Address *</label>
-                  <input type="email" id="f-email" />
+                  <input type="email" id="f-email"
+                    onblur="ChecklistCore.validateField(this,'email')" />
+                  <span class="field-error" id="err-email"></span>
                 </div>
               </div>
               <div class="form-row">
@@ -268,7 +273,9 @@ window.ChecklistCore = (() => {
                 </div>
                 <div class="form-group">
                   <label>Supervisor Email *</label>
-                  <input type="email" id="f-supervisor-email" />
+                  <input type="email" id="f-supervisor-email"
+                    onblur="ChecklistCore.validateField(this,'email')" />
+                  <span class="field-error" id="err-supervisor-email"></span>
                 </div>
               </div>
               <div class="form-row" id="supervisor-other-fields" style="display:none;">
@@ -327,6 +334,21 @@ window.ChecklistCore = (() => {
         jobTitle:        document.getElementById('f-jobtitle')?.value?.trim() || '',
         department:      document.getElementById('f-department')?.value?.trim() || '',
       };
+    },
+
+    validateField(el, type) {
+      const val = el.value.trim();
+      const errId = 'err-' + el.id;
+      const errEl = document.getElementById(errId);
+      if (!errEl) return;
+      let msg = '';
+      if (type === 'mobile') {
+        if (val && !/^\d{10}$/.test(val)) msg = 'Must be exactly 10 digits.';
+      } else if (type === 'email') {
+        if (val && (!val.includes('@') || !val.includes('.'))) msg = 'Must include @ and a domain (e.g. name@example.com).';
+      }
+      errEl.textContent = msg;
+      el.style.borderColor = msg ? 'var(--red)' : '';
     },
 
     validateForm() {
