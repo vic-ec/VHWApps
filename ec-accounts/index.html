@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Victoria Hospital EC — Account Setup</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg:          #f0f3f6;
+      --surface:     #ffffff;
+      --surface-2:   #f7f9fb;
+      --border:      #d5dde5;
+      --border-soft: #e8edf2;
+
+      --blue-dark:   #00538d;
+      --blue:        #0079c2;
+      --blue-light:  #d0e8f7;
+      --blue-xlight: #eaf4fc;
+
+      --green:       #1a7a4a;
+      --green-light: #d4f0e4;
+      --red:         #c0392b;
+      --red-light:   #fde8e6;
+      --amber:       #d4701a;
+      --amber-light: #fef3e2;
+      --purple:      #6d3fa0;
+      --purple-light:#ede5f7;
+
+      --text-primary:   #0f2133;
+      --text-secondary: #4a5f72;
+      --text-muted:     #8a9bac;
+      --text-label:     #5a6e7f;
+
+      --radius-sm: 4px;
+      --radius:    8px;
+      --radius-lg: 12px;
+      --shadow:    0 1px 4px rgba(0,50,90,0.10), 0 4px 16px rgba(0,50,90,0.06);
+      --shadow-sm: 0 1px 3px rgba(0,50,90,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--blue-dark);
+      color: white;
+      padding: 0 32px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,30,60,0.25);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .topbar-logo {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+      background: white;
+      border-radius: var(--radius-sm);
+      padding: 3px 8px;
+      flex-shrink: 0;
+    }
+    .topbar-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .topbar-badge {
+      font-family: 'Outfit', 'DM Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: white;
+      white-space: nowrap;
+    }
+    .topbar-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+    .topbar-right { font-size: 11px; color: rgba(255,255,255,0.6); font-family: 'Outfit', sans-serif; }
+
+    /* ── PAGE ── */
+    .page { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 32px 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue-dark), var(--blue), #00b4d8);
+    }
+    .hero-eyebrow {
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px; letter-spacing: 0.12em; color: var(--blue);
+      font-weight: 600; text-transform: uppercase; margin-bottom: 10px;
+    }
+    .hero h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 10px; }
+    .hero p { color: var(--text-secondary); font-size: 14px; max-width: 580px; line-height: 1.6; }
+    .hero-meta { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-soft); }
+    .hero-meta-row { display: flex; gap: 20px; flex-wrap: wrap; }
+    .hero-meta-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-muted); }
+    .hero-meta-item span:first-child { font-size: 16px; }
+    .hero-meta-safety { font-size: 12px; color: var(--green); font-weight: 500; }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 24px;
+      margin-bottom: 20px; box-shadow: var(--shadow-sm);
+    }
+    .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; flex-wrap: nowrap; }
+    .card-header-icon {
+      width: 28px; height: 28px; background: var(--blue-xlight);
+      border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;
+    }
+    .card-header-text { min-width: 0; }
+    .card-header h2 { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-header p { font-size: 11px; color: var(--text-muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .step-label {
+      font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 600;
+      color: var(--text-muted); background: var(--bg); border: 1px solid var(--border);
+      padding: 3px 7px; border-radius: 20px; flex-shrink: 0; white-space: nowrap;
+    }
+    .btn-capture {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-top: 18px; padding: 13px 28px;
+      width: 50%; margin-left: auto; margin-right: auto;
+      background: #16a34a; color: white;
+      border: none; border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: background 0.15s, transform 0.1s;
+      box-shadow: 0 2px 8px rgba(22,163,74,0.3);
+    }
+    .btn-capture:hover { background: #15803d; transform: translateY(-1px); }
+    #step2-card { display: none; }
+    #step3-card { display: none; }
+
+    /* ── CHECKLIST ── */
+    #checklist-container { display: flex; flex-direction: column; gap: 10px; }
+
+    .checklist-item {
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      background: var(--surface-2); transition: border-color 0.2s, background 0.2s; overflow: hidden;
+    }
+    .checklist-item.status-yes { border-color: var(--green); background: #f4fdf8; }
+    .checklist-item.status-no  { border-color: var(--blue); background: var(--blue-xlight); }
+
+    .checklist-item-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px; gap: 12px;
+    }
+    .checklist-item-info { display: flex; align-items: center; gap: 12px; flex: 1; }
+    .checklist-item-icon { font-size: 22px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .checklist-item-icon-img { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; border-radius: 4px; }
+    .checklist-item-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+    .checklist-item-desc  { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    .redirect-badge {
+      font-size: 10px; font-weight: 600; font-family: 'Outfit', sans-serif;
+      background: var(--purple-light); color: var(--purple);
+      padding: 2px 7px; border-radius: 20px; letter-spacing: 0.03em;
+    }
+    .pdf-badge {
+      font-size: 10px; font-weight: 600; font-family: 'Outfit', sans-serif;
+      background: var(--blue-xlight); color: var(--blue-dark);
+      padding: 2px 7px; border-radius: 20px; letter-spacing: 0.03em;
+    }
+    .email-badge {
+      font-size: 10px; font-weight: 600; font-family: 'Outfit', sans-serif;
+      background: #f0f9ff; color: #0369a1;
+      padding: 2px 7px; border-radius: 20px; letter-spacing: 0.03em;
+    }
+
+    .checklist-item-controls { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: nowrap; }
+
+    .radio-option { display: flex; align-items: center; cursor: pointer; min-width: 0; }
+    .radio-option input[type=radio] { display: none; }
+    .radio-label {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 10px; border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); font-size: 12px; font-weight: 500;
+      color: var(--text-secondary); background: var(--surface);
+      transition: all 0.15s; user-select: none; white-space: nowrap;
+    }
+    .radio-option.has-account input:checked + .radio-label { background: var(--green-light); color: var(--green); border-color: var(--green); }
+    .radio-option.no-account  input:checked + .radio-label { background: var(--blue-light);  color: var(--blue-dark); border-color: var(--blue); }
+    .radio-label:hover { background: var(--blue-xlight); border-color: var(--blue); }
+    .radio-check { color: var(--green); }
+    .radio-x     { color: var(--red); }
+
+    .checklist-item-status { padding: 0 16px; }
+    .checklist-item-status:not(:empty) { padding-bottom: 12px; }
+
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600;
+    }
+    .status-badge.ok     { background: var(--green-light); color: var(--green); }
+    .status-badge.needed { background: var(--amber-light);  color: var(--amber); }
+
+    /* ── REDIRECT INLINE ── */
+    .redirect-inline {
+      background: var(--purple-light);
+      border: 1px solid #c9a8e8;
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    }
+    .redirect-note { font-size: 12.5px; color: #4a2a6e; flex: 1; min-width: 200px; }
+    .redirect-warning {
+      width: 100%; font-size: 12.5px; font-weight: 600;
+      color: #7a3a00; background: #fff3cd;
+      border: 1px solid #f0c040; border-radius: var(--radius-sm);
+      padding: 6px 10px; margin-bottom: 6px;
+    }
+    .btn-redirect {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; background: var(--purple); color: white;
+      border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+      text-decoration: none; transition: all 0.15s; white-space: nowrap;
+    }
+    .btn-redirect:hover { background: #5a2d90; transform: translateY(-1px); }
+
+    /* ── ACTION PANEL ── */
+    .panel-hint {
+      padding: 16px; background: var(--bg);
+      border: 1px dashed var(--border); border-radius: var(--radius);
+      color: var(--text-muted); font-size: 13px; text-align: center;
+    }
+    .panel-all-good {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--green-light); border: 1.5px solid var(--green);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .all-good-icon  { font-size: 28px; color: var(--green); font-weight: 700; }
+    .all-good-text strong { color: var(--green); font-size: 15px; }
+    .all-good-text p { color: #2d6a4f; font-size: 13px; margin-top: 4px; }
+
+    .panel-redirect-only {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--purple-light); border: 1.5px solid #c9a8e8;
+      border-radius: var(--radius); padding: 20px;
+    }
+    .redirect-only-icon  { font-size: 28px; color: var(--purple); }
+    .redirect-only-text strong { color: var(--purple); font-size: 15px; }
+    .redirect-only-text p { color: #4a2a6e; font-size: 13px; margin-top: 4px; }
+
+    .panel-action { display: flex; flex-direction: column; }
+    .panel-action-header {
+      background: var(--blue-xlight); border: 1px solid var(--blue-light);
+      border-radius: var(--radius) var(--radius) 0 0; padding: 14px 18px;
+    }
+    .panel-action-header strong { font-size: 14px; color: var(--blue-dark); }
+    .panel-action-header p { font-size: 12.5px; color: var(--text-secondary); margin-top: 5px; }
+    .needed-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: var(--surface); border: 1px solid var(--blue-light);
+      border-radius: 20px; padding: 2px 9px;
+      font-size: 11.5px; color: var(--blue-dark); font-weight: 500;
+      margin: 2px 3px 0 0;
+    }
+    .redirect-reminder {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 8px; padding: 8px 10px;
+      background: var(--purple-light); border-radius: var(--radius-sm);
+      font-size: 12px; color: #4a2a6e;
+    }
+
+    .panel-form-wrapper {
+      border: 1px solid var(--blue-light); border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      background: var(--surface); padding: 22px;
+    }
+
+    /* ── FORM ── */
+    .form-section-header {
+      font-family: 'DM Sans', sans-serif; font-size: 14px;
+      font-weight: 600; color: var(--blue);
+      border-bottom: 1px solid var(--blue-light);
+      padding-bottom: 7px; margin-bottom: 14px;
+    }
+    .form-row {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 12px; margin-bottom: 12px;
+    }
+    .form-row.form-row-3 { grid-template-columns: 100px 1fr 1fr; }
+    .form-row.form-row-4 { grid-template-columns: 90px 1fr 1fr 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group.full-width { grid-column: 1 / -1; }
+    .form-group label { font-size: 11.5px; font-weight: 600; color: var(--text-label); }
+    .form-group input,
+    .form-group select {
+      padding: 9px 12px; border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); font-family: inherit;
+      font-size: 13.5px; color: var(--text-primary); background: var(--surface);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none; border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0,121,194,0.12);
+    }
+    .form-group input::placeholder { color: var(--text-muted); }
+
+    .module-extra-section { padding-top: 4px; }
+
+    .submit-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+    .btn-generate, .btn-email {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 13.5px; font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.15s;
+    }
+    .btn-generate { background: var(--blue-dark); color: white; }
+    .btn-generate:hover { background: #003f6e; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,50,100,0.25); }
+    .btn-email { background: var(--surface); color: var(--blue-dark); border: 1.5px solid var(--blue); }
+    .btn-email:hover { background: var(--blue-xlight); transform: translateY(-1px); }
+
+    .btn-email-direct {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 13.5px; font-weight: 600;
+      background: var(--surface); color: var(--blue-dark);
+      border: 1.5px solid var(--blue); text-decoration: none;
+      transition: all 0.15s;
+    }
+    .btn-email-direct:hover { background: var(--blue-xlight); transform: translateY(-1px); }
+
+    .submit-hint { font-size: 12px; color: var(--text-muted); margin-top: 12px; line-height: 1.7; }
+    .submit-hint strong { color: var(--text-secondary); }
+
+    #email-fallback { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .fallback-link {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: 10px 14px; background: var(--blue-xlight);
+      border: 1px solid var(--blue-light); border-radius: var(--radius);
+      font-size: 12.5px; color: var(--text-secondary);
+    }
+    .fallback-a {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; background: var(--blue-xlight);
+      border: 1px solid var(--blue-light); border-radius: var(--radius-sm);
+      color: var(--blue-dark); font-size: 12px; font-weight: 600;
+      text-decoration: none; transition: all 0.15s;
+    }
+    .fallback-a:hover { background: var(--blue-light); }
+
+    #module-action-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+    .module-action-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: var(--radius);
+    }
+    .module-action-label {
+      font-size: 13px; font-weight: 600; color: var(--text-primary);
+      min-width: 80px; flex-shrink: 0;
+    }
+    .module-action-btns { display: flex; gap: 8px; flex: 1; }
+    .module-action-btns .btn-generate,
+    .module-action-btns .btn-email {
+      flex: 1; justify-content: center; text-align: center;
+    }
+
+    .page-footer { text-align: center; padding: 24px 0 0; font-size: 11px; color: var(--text-muted); font-family: 'Outfit', sans-serif; }
+    .unsaved-warning {
+      text-align: center; margin: 8px 0 0;
+      padding: 10px 18px; border-radius: var(--radius-sm);
+      background: #fff8e1; border: 1px solid #f0c040;
+      font-size: 12px; font-weight: 500; color: #7a5800;
+    }
+
+    .clear-form-bar {
+      display: flex; justify-content: flex-end;
+      padding: 0 0 24px;
+    }
+    .btn-clear {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 18px; background: var(--surface);
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 12.5px; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+    }
+    .btn-clear:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 620px) {
+      .checklist-item-header { flex-wrap: wrap; }
+      .checklist-item-controls { flex-direction: row; gap: 6px; flex-wrap: nowrap; width: 100%; }
+      .checklist-item-controls .radio-option { flex: 1; }
+      .checklist-item-controls .radio-label { justify-content: center; width: 100%; }
+      .form-row { grid-template-columns: 1fr; }
+      .topbar { padding: 0 12px; }
+      .topbar-badge { font-size: 13px; }
+      .topbar-logo { height: 28px; }
+      .topbar-right { display: none; }
+      .page { padding: 16px 12px 60px; }
+      .hero { padding: 20px; }
+      .hero h1 { font-size: 20px; }
+      .hero-meta-row { flex-direction: column; gap: 10px; }
+      .redirect-inline { flex-direction: column; }
+      .module-action-row { flex-wrap: wrap; }
+      .btn-capture { width: 90%; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="topbar">
+    <div class="topbar-left">
+      <img src="data:image/png;base64,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" alt="Western Cape Government" class="topbar-logo" />
+      <div class="topbar-badge">Victoria Hospital Emergency Centre</div>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <div class="hero">
+      <h1>Account Setup &amp; Access Management</h1>
+      <p>
+        Use this tool to verify your system accounts and generate the necessary access request forms.
+        Where applicable, official forms will be pre-filled and ready to email to the relevant administrator.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-row">
+          <div class="hero-meta-item"><span>↗</span><span>Follow links to their portals</span></div>
+          <div class="hero-meta-item"><span>⬇</span><span>PDFs generated in-browser</span></div>
+          <div class="hero-meta-item"><span>✉</span><span>Emails open in your mail client</span></div>
+        </div>
+        <div class="hero-meta-item hero-meta-safety"><span>🔒</span><span>Your data is safe. It is not stored or shared externally.</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="step-label">STEP 1</span>
+        <div class="card-header-icon">📋</div>
+        <div class="card-header-text">
+          <h2>Account Checklist</h2>
+          <p>Indicate whether you have an active account for each system</p>
+        </div>
+      </div>
+      <div id="checklist-container"></div>
+      <div id="all-good-checklist" style="display:none; margin-top:18px;" class="panel-all-good">
+        <div class="all-good-icon">✓</div>
+        <div class="all-good-text">
+          <strong>All accounts confirmed.</strong>
+          <p>No action required — you're fully set up for the Emergency Centre.</p>
+        </div>
+      </div>
+      <button id="btn-capture-step2" class="btn-capture" style="display:none;" onclick="ChecklistCore.revealStep2()">Go to Step 2 &nbsp;⟶&nbsp; Capture your details</button>
+    </div>
+
+    <div class="card" id="step2-card">
+      <div class="card-header">
+        <span class="step-label">STEP 2</span>
+        <div class="card-header-icon">📝</div>
+        <div class="card-header-text">
+          <h2>Capture Your Details</h2>
+          <p>Complete the fields below to generate pre-filled application documents</p>
+        </div>
+      </div>
+      <div id="action-panel">
+        <div class="panel-hint">Please answer all items above to continue.</div>
+      </div>
+      <button class="btn-capture" id="btn-step3" style="display:none;" onclick="ChecklistCore.revealStep3()">Go to Step 3 &nbsp;⟶&nbsp; Generate documents</button>
+    </div>
+
+    <div class="card" id="step3-card">
+      <div class="card-header">
+        <span class="step-label">STEP 3</span>
+        <div class="card-header-icon">📤</div>
+        <div class="card-header-text">
+          <h2>Generate &amp; Submit</h2>
+          <p>Download your pre-filled forms and open email drafts</p>
+        </div>
+      </div>
+      <div id="step3-action-buttons"></div>
+      <p class="submit-hint">Download the pre-filled PDF for each account, then open the email draft, attach the PDF, and send.</p>
+    </div>
+
+    <div class="clear-form-bar">
+      <button class="btn-clear" onclick="ChecklistCore.clearForm()">↺ Clear Form</button>
+    </div>
+
+    <div class="unsaved-warning">
+      ⚠️ Your information is not saved. Closing or refreshing this page will clear all entered data.
+    </div>
+
+    <div class="page-footer">
+      Victoria Hospital Emergency Centre &nbsp;·&nbsp; Western Cape Dept. of Health &nbsp;·&nbsp;
+      All PDF generation is done locally in your browser &nbsp;·&nbsp; v2.0
+    </div>
+
+  </div>
+
+  <!-- Engines first, then modules, then init -->
+  <script src="core/pdf-engine.js"></script>
+  <script src="core/email-engine.js"></script>
+  <script src="core/checklist-core.js"></script>
+  <!-- IT + PACS (redirect modules) -->
+  <script src="modules/it-pacs-accounts.js"></script>
+  <!-- HECTIS + SPV (redirect modules) -->
+  <script src="modules/hectis-spv-accounts.js"></script>
+  <!-- NHLS + EMS IFT (PDF-generating modules) -->
+  <script src="modules/nhls-account.js"></script>
+  <script src="modules/ems-ift.js"></script>
+  <!-- eCCR (PDF-generating module) -->
+  <script src="modules/eccr-account.js"></script>
+  <!-- Parking + Blood Gas (email-only modules) -->
+  <script src="modules/parking-bloodgas.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      ChecklistCore.render('checklist-container');
+    });
+  </script>
+
+</body>
+</html>
