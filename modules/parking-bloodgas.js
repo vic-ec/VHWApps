@@ -30,7 +30,7 @@ const DISCLAIMER = `\n\n---\nThis email has been auto-generated and may contain 
     const dept       = userData.department || 'N/A';
     const adminEmail = 'Janine.Theunissen@westerncape.gov.za';
     const cc         = encodeURIComponent(userData.email || '');
-    const subject    = encodeURIComponent('New Parking Disc Request - ' + fullName);
+    const subject    = encodeURIComponent('New Request - Hospital Parking Disc - ' + fullName);
     const body = encodeURIComponent(
 'Dear Administrator\n\nPlease can you assist me with a parking disc:\n\n' +
 '- Name: ' + fullName + '\n' +
@@ -81,7 +81,7 @@ const DISCLAIMER = `\n\n---\nThis email has been auto-generated and may contain 
     const dept      = userData.department || 'N/A';
     const to        = 'philip.cloete@westerncape.gov.za; sebastian.dehaan@westerncape.gov.za; paul.xafis@westerncape.gov.za';
     const cc        = encodeURIComponent(userData.email || '');
-    const subject   = encodeURIComponent('New User Request - EC Blood Gas Machine Password - ' + (userData.name || '') + ' ' + (userData.surname || ''));
+    const subject   = encodeURIComponent('New Request - Blood Gas Machine Profile - ' + (userData.title ? userData.title + ' ' : '') + (userData.name || '') + ' ' + (userData.surname || ''));
     const body = encodeURIComponent(
 'Dear colleagues\n\nPlease can you assist with creating my profile for the EC blood gas machine:\n\n' +
 '- Name: ' + fullName + '\n' +
@@ -102,7 +102,7 @@ const DISCLAIMER = `\n\n---\nThis email has been auto-generated and may contain 
     a.rel = 'noopener';
     a.className = 'btn-email';
     a.style.cssText = 'background:#fef3e2;color:#d4701a;border-color:#d4701a;text-decoration:none;flex:1;justify-content:center;';
-    a.textContent = '▶ Watch: How to take a perfect blood gas sample';
+    a.textContent = '▶ Watch: How to take the perfect blood gas sample';
     return a;
   }
 
