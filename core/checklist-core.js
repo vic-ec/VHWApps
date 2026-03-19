@@ -207,13 +207,9 @@ window.ChecklistCore = (() => {
                 <div class="form-group"></div>
               </div>
               <div class="form-row">
-                <div class="form-group">
+                <div class="form-group full-width">
                   <label>First Name *</label>
                   <input type="text" id="f-name" />
-                </div>
-                <div class="form-group">
-                  <label>Second Name</label>
-                  <input type="text" id="f-second-name" />
                 </div>
               </div>
               <div class="form-row">
@@ -225,7 +221,7 @@ window.ChecklistCore = (() => {
               <div class="form-row">
                 <div class="form-group">
                   <label>PERSAL Number *</label>
-                  <input type="text" id="f-persal" />
+                  <input type="text" id="f-persal" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
                 </div>
                 <div class="form-group">
                   <label>Registration Number (HPCSA / SANC / MP)</label>
@@ -235,7 +231,7 @@ window.ChecklistCore = (() => {
               <div class="form-row">
                 <div class="form-group">
                   <label>Mobile Number *</label>
-                  <input type="text" id="f-mobile" />
+                  <input type="text" id="f-mobile" inputmode="numeric" maxlength="10" placeholder="0831234567" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
                 </div>
                 <div class="form-group">
                   <label>Email Address *</label>
@@ -256,7 +252,7 @@ window.ChecklistCore = (() => {
                 </div>
                 <div class="form-group">
                   <label>Hospital Department *</label>
-                  <input type="text" id="f-department" placeholder="e.g. Emergency Centre" />
+                  <input type="text" id="f-department" />
                 </div>
               </div>
               <div class="form-row">
@@ -264,9 +260,9 @@ window.ChecklistCore = (() => {
                   <label>Line Supervisor *</label>
                   <select id="f-supervisor" onchange="ChecklistCore.onSupervisorChange(this.value)">
                     <option value="">— Select —</option>
-                    <option value="Dr Flip Cloete">Dr Flip Cloete</option>
-                    <option value="Dr Sebastian De Haan">Dr Sebastian De Haan</option>
-                    <option value="Dr Paul Xafis">Dr Paul Xafis</option>
+                    <option value="Flip Cloete">Flip Cloete</option>
+                    <option value="Sebastian De Haan">Sebastian De Haan</option>
+                    <option value="Paul Xafis">Paul Xafis</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
@@ -278,11 +274,11 @@ window.ChecklistCore = (() => {
               <div class="form-row" id="supervisor-other-fields" style="display:none;">
                 <div class="form-group">
                   <label>Supervisor First Name *</label>
-                  <input type="text" id="f-supervisor-first" placeholder="First name" />
+                  <input type="text" id="f-supervisor-first" />
                 </div>
                 <div class="form-group">
                   <label>Supervisor Surname *</label>
-                  <input type="text" id="f-supervisor-surname" placeholder="Surname" />
+                  <input type="text" id="f-supervisor-surname" />
                 </div>
               </div>
             </div>
@@ -312,7 +308,7 @@ window.ChecklistCore = (() => {
       return {
         title:           document.getElementById('f-title')?.value?.trim() || '',
         name:            document.getElementById('f-name')?.value?.trim() || '',
-        secondName:      document.getElementById('f-second-name')?.value?.trim() || '',
+        secondName:      '',
         surname:         document.getElementById('f-surname')?.value?.trim() || '',
         persal:          document.getElementById('f-persal')?.value?.trim() || '',
         mpNumber:        document.getElementById('f-mp')?.value?.trim() || '',
@@ -342,6 +338,25 @@ window.ChecklistCore = (() => {
         jobTitle: 'Job Title', department: 'Hospital Department'
       };
       const missing = Object.keys(labelMap).filter(k => !d[k]);
+      if (missing.length > 0) {
+        alert(`Please fill in all required fields:\n• ${missing.map(k => labelMap[k]).join('\n• ')}`);
+        return null;
+      }
+      // Mobile: exactly 10 digits
+      if (!/^\d{10}$/.test(d.mobile)) {
+        alert('Mobile Number must be exactly 10 digits (numbers only).');
+        return null;
+      }
+      // Email: must contain @ and .
+      if (!d.email.includes('@') || !d.email.includes('.')) {
+        alert('Please enter a valid Email Address (must include @ and .).');
+        return null;
+      }
+      // Supervisor email: must contain @ and .
+      if (!d.supervisorEmail.includes('@') || !d.supervisorEmail.includes('.')) {
+        alert('Please enter a valid Supervisor Email (must include @ and .).');
+        return null;
+      }
       // If Other selected, also check first/surname fields directly
       const supVal = document.getElementById('f-supervisor')?.value;
       if (supVal === 'Other') {
@@ -351,10 +366,6 @@ window.ChecklistCore = (() => {
           alert('Please fill in the supervisor first name and surname.');
           return null;
         }
-      }
-      if (missing.length > 0) {
-        alert(`Please fill in all required fields:\n• ${missing.map(k => labelMap[k]).join('\n• ')}`);
-        return null;
       }
       return d;
     },
@@ -383,9 +394,9 @@ window.ChecklistCore = (() => {
 
     onSupervisorChange(value) {
       const emailMap = {
-        'Dr Flip Cloete':       'philip.cloete@westerncape.gov.za',
-        'Dr Sebastian De Haan': 'sebastian.dehaan@westerncape.gov.za',
-        'Dr Paul Xafis':        'paul.xafis@westerncape.gov.za',
+        'Flip Cloete':       'philip.cloete@westerncape.gov.za',
+        'Sebastian De Haan': 'sebastian.dehaan@westerncape.gov.za',
+        'Paul Xafis':        'paul.xafis@westerncape.gov.za',
       };
       const emailField  = document.getElementById('f-supervisor-email');
       const otherFields = document.getElementById('supervisor-other-fields');

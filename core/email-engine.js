@@ -22,7 +22,7 @@ window.EmailEngine = {
     const ccEmail      = userData.email || '';
 
     const subject = encodeURIComponent(
-      `Approval required for new user request - ${itemLabel} - ${fullName}`
+      `New Request - ${itemLabel} Application - ${fullName}`
     );
 
     const disclaimer = `\n\n---\nThis email has been auto-generated and may contain errors. Please confirm that the information is correct before proceeding. Please ignore and delete this email if you are not the intended recipient or have received this email in error.`;
