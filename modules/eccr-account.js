@@ -7,7 +7,7 @@
   function generatePDF(userData) {
     const doc = PDFEngine.newDoc();
     const W = 210;
-    const M = 14;
+    const M = 20;
     const usableW = W - M * 2;
 
     const eccrRole  = document.getElementById('eccr-role')?.value || '';
@@ -64,14 +64,14 @@
 
     // ── HEADER ──
     doc.setFillColor(...GRN);
-    doc.rect(0, 0, W, 22, 'F');
+    doc.rect(0, 10, W, 22, 'F');
 
     // WCG logo — left-aligned
     if (window.LOGO_WCG) {
       try {
         doc.setFillColor(255, 255, 255);
-        doc.roundedRect(M, 2, 52, 18, 2, 2, 'F');
-        doc.addImage(window.LOGO_WCG, 'PNG', M + 1, 3, 50, 16);
+        doc.roundedRect(M, 12, 52, 18, 2, 2, 'F');
+        doc.addImage(window.LOGO_WCG, 'PNG', M + 1, 13, 50, 16);
       } catch(e) {
         doc.setTextColor(...WHITE);
         doc.setFontSize(9); doc.setFont('helvetica','bold');
@@ -82,20 +82,20 @@
     // Centre text
     doc.setTextColor(...WHITE);
     doc.setFontSize(11); doc.setFont('helvetica','bold');
-    doc.text('Department of Health', W / 2, 10, { align: 'center' });
+    doc.text('Department of Health', W / 2, 20, { align: 'center' });
     doc.setFontSize(7.5); doc.setFont('helvetica','normal');
-    doc.text('Departement van Gesondheid  |  iSebe lezeMoilo', W / 2, 16, { align: 'center' });
+    doc.text('Departement van Gesondheid  |  iSebe lezeMoilo', W / 2, 26, { align: 'center' });
     doc.setTextColor(0, 0, 0);
 
     // Title bar
     doc.setFillColor(...GRN);
-    doc.rect(M, 25, usableW, 8, 'F');
+    doc.rect(M, 35, usableW, 8, 'F');
     doc.setTextColor(...WHITE);
     doc.setFontSize(9); doc.setFont('helvetica','bold');
-    doc.text('eCCR ACCESS CHANGE CONTROL FORM — INITIAL ACCESS REQUEST', W/2, 30.5, { align:'center' });
+    doc.text('eCCR ACCESS CHANGE CONTROL FORM — INITIAL ACCESS REQUEST', W/2, 40.5, { align:'center' });
     doc.setTextColor(0, 0, 0);
 
-    y = 37;
+    y = 47;
 
     // ── REQUEST TYPE ──
     lbl('Request Type', M, y, 36, 8);
