@@ -278,7 +278,7 @@ window.ChecklistCore = (() => {
                   <span class="field-error" id="err-supervisor-email"></span>
                 </div>
               </div>
-              <div class="form-row" id="supervisor-other-fields" style="display:none;">
+              <div class="form-row" id="supervisor-other-fields" style="display:none; margin-top:-12px; margin-bottom:0;">
                 <div class="form-group">
                   <label>Supervisor First Name *</label>
                   <input type="text" id="f-supervisor-first" />
