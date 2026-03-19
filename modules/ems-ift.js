@@ -7,7 +7,7 @@
   function generatePDF(userData) {
     const doc = PDFEngine.newDoc();
     const W = 210;
-    const M = 14;
+    const M = 20;
     const usableW = W - M * 2;
 
     // Extra fields
@@ -31,14 +31,14 @@
 
     // ── HEADER ──
     doc.setFillColor(0, 83, 141);
-    doc.rect(0, 0, W, 24, 'F');
+    doc.rect(0, 10, W, 24, 'F');
 
     // WCG logo — left-aligned (standardised 50×18 in 52×20 pill)
     if (window.LOGO_WCG) {
       try {
         doc.setFillColor(255, 255, 255);
-        doc.roundedRect(M, 2, 52, 20, 2, 2, 'F');
-        doc.addImage(window.LOGO_WCG, 'PNG', M + 1, 3, 50, 18);
+        doc.roundedRect(M, 12, 52, 20, 2, 2, 'F');
+        doc.addImage(window.LOGO_WCG, 'PNG', M + 1, 13, 50, 18);
       } catch(e) {
         doc.setTextColor(255,255,255);
         doc.setFontSize(9); doc.setFont('helvetica','bold');
@@ -49,15 +49,15 @@
     // Centre text
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(8); doc.setFont('helvetica', 'normal');
-    doc.text('Department of Health and Wellness', W / 2, 10, { align: 'center' });
-    doc.text('Emergency Medical Services: EBS', W / 2, 16, { align: 'center' });
+    doc.text('Department of Health and Wellness', W / 2, 20, { align: 'center' });
+    doc.text('Emergency Medical Services: EBS', W / 2, 26, { align: 'center' });
 
     // EMS logo — right-aligned (standardised 20×20 in 22×22 pill)
     if (window.LOGO_EMS) {
       try {
         doc.setFillColor(255, 255, 255);
-        doc.roundedRect(W - M - 22, 2, 22, 20, 2, 2, 'F');
-        doc.addImage(window.LOGO_EMS, 'PNG', W - M - 21, 3, 20, 18);
+        doc.roundedRect(W - M - 22, 12, 22, 20, 2, 2, 'F');
+        doc.addImage(window.LOGO_EMS, 'PNG', W - M - 21, 13, 20, 18);
       } catch(e) {}
     }
 
@@ -65,18 +65,18 @@
     doc.setTextColor(0, 0, 0);
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'normal');
-    doc.text('Enquiries: EMS.Evolution@westerncape.gov.za', M, 29);
+    doc.text('Enquiries: EMS.Evolution@westerncape.gov.za', M, 39);
 
     // ── TITLE BAR ──
     doc.setFillColor(0, 83, 141);
-    doc.rect(M, 32, usableW, 10, 'F');
+    doc.rect(M, 42, usableW, 10, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.text('EMS BUSINESS SOLUTION USER ACCESS REQUEST FORM', W / 2, 38.5, { align: 'center' });
+    doc.text('EMS BUSINESS SOLUTION USER ACCESS REQUEST FORM', W / 2, 48.5, { align: 'center' });
     doc.setTextColor(0, 0, 0);
 
-    let y = 48;
+    let y = 58;
 
     // ── INSTRUCTIONS ──
     doc.setFontSize(8);

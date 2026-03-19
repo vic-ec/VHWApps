@@ -7,7 +7,7 @@
   function generatePDF(userData) {
     const doc = PDFEngine.newDoc();
     const W = 210;
-    const M = 14;
+    const M = 20;
     const usableW = W - M * 2;
 
     // Extra fields
@@ -59,11 +59,11 @@
 
     // ── HEADER: NHLS branding ──
     doc.setFillColor(166, 206, 57);
-    doc.rect(0, 0, W, 22, 'F');
+    doc.rect(0, 10, W, 22, 'F');
 
     // NHLS logo — left-aligned, smaller for crispness
     if (window.LOGO_NHLS) {
-      try { doc.addImage(window.LOGO_NHLS, 'JPEG', M, 3, 55, 16); } catch(e) {
+      try { doc.addImage(window.LOGO_NHLS, 'JPEG', M, 13, 55, 16); } catch(e) {
         doc.setTextColor(255,255,255);
         doc.setFontSize(14); doc.setFont('helvetica','bold');
         doc.text('NHLS', M, 14);
@@ -74,36 +74,36 @@
     const centerX = W / 2;
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(7); doc.setFont('helvetica', 'normal');
-    doc.text('IT Helpdesk: ITHelpdesk1@nhls.ac.za', centerX, 11, { align: 'center' });
-    doc.text('Tel: 011 386 6125', centerX, 16, { align: 'center' });
+    doc.text('IT Helpdesk: ITHelpdesk1@nhls.ac.za', centerX, 21, { align: 'center' });
+    doc.text('Tel: 011 386 6125', centerX, 26, { align: 'center' });
 
     // WCG logo — right-aligned (standardised 50×18 in 52×20 pill)
     if (window.LOGO_WCG) {
       try {
         doc.setFillColor(255, 255, 255);
-        doc.roundedRect(W - M - 52, 2, 52, 18, 2, 2, 'F');
-        doc.addImage(window.LOGO_WCG, 'PNG', W - M - 51, 3, 50, 16);
+        doc.roundedRect(W - M - 52, 12, 52, 18, 2, 2, 'F');
+        doc.addImage(window.LOGO_WCG, 'PNG', W - M - 51, 13, 50, 16);
       } catch(e) {}
     }
     doc.setTextColor(0, 0, 0);
 
     // Title bar
     doc.setFillColor(166, 206, 57);
-    doc.rect(M, 25, usableW, 9, 'F');
+    doc.rect(M, 35, usableW, 9, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(9);
     doc.setFont('helvetica', 'bold');
-    doc.text('Web Results ACCESS / REQUESTING DOCTOR APPLICATION', W / 2, 31, { align: 'center' });
+    doc.text('Web Results ACCESS / REQUESTING DOCTOR APPLICATION', W / 2, 41, { align: 'center' });
     doc.setTextColor(0, 0, 0);
 
     // Version & instruction
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(100, 100, 100);
-    doc.text('Form v8.4  |  PLEASE SIGN TERMS AND CONDITIONS ON PAGE 2', W / 2, 39, { align: 'center' });
+    doc.text('Form v8.4  |  PLEASE SIGN TERMS AND CONDITIONS ON PAGE 2', W / 2, 49, { align: 'center' });
     doc.setTextColor(0, 0, 0);
 
-    let y = 43;
+    let y = 53;
 
     // ── PRINT CLEARLY banner ──
     doc.setFillColor(235, 245, 210);
