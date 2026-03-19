@@ -1,6 +1,5 @@
 // modules/parking-bloodgas.js — Hospital Parking and Blood Gas Machine modules
 
-const DISCLAIMER = `\n\n---\nThis email has been auto-generated and may contain errors. Please confirm that the information is correct before proceeding. Please ignore and delete this email if you are not the intended recipient or have received this email in error.`;
 
 // ── HOSPITAL PARKING MODULE ──
 (function () {
@@ -41,7 +40,7 @@ const DISCLAIMER = `\n\n---\nThis email has been auto-generated and may contain 
 '- Car make and model: ' + carModel + '\n' +
 '- Car number plate: ' + plate + '\n\n' +
 'I would appreciate your assistance with this. Please let me know when I can collect it.\n\nKind regards,\n' + fullName +
-'\n\n---\nThis email has been auto-generated and may contain errors. Please confirm that the information is correct before proceeding. Please ignore and delete this email if you are not the intended recipient or have received this email in error.'
+''
     );
     return 'mailto:' + adminEmail + '?cc=' + cc + '&subject=' + subject + '&body=' + body;
   }
@@ -90,7 +89,7 @@ const DISCLAIMER = `\n\n---\nThis email has been auto-generated and may contain 
 '- Username: ' + username + '\n' +
 '- Password: ' + password + '\n\n' +
 'I appreciate your assistance with this and look forward to working with you soon.\n\nKind regards,\n' + fullName +
-'\n\n---\nThis email has been auto-generated and may contain errors. Please confirm that the information is correct before proceeding. Please ignore and delete this email if you are not the intended recipient or have received this email in error.'
+''
     );
     return 'mailto:' + to + '?cc=' + cc + '&subject=' + subject + '&body=' + body;
   }

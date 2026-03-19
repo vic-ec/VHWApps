@@ -33,7 +33,7 @@
     doc.setFillColor(0, 83, 141);
     doc.rect(0, 0, W, 24, 'F');
 
-    // WCG logo (left side — white pill)
+    // WCG logo — left-aligned (standardised 50×18 in 52×20 pill)
     if (window.LOGO_WCG) {
       try {
         doc.setFillColor(255, 255, 255);
@@ -44,32 +44,21 @@
         doc.setFontSize(9); doc.setFont('helvetica','bold');
         doc.text('Western Cape Government', M, 10);
       }
-    } else {
-      doc.setTextColor(255,255,255);
-      doc.setFontSize(9); doc.setFont('helvetica','bold');
-      doc.text('Western Cape Government', M, 10);
     }
 
     // Centre text
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(8); doc.setFont('helvetica', 'normal');
-    doc.text('Department of Health and Wellness', W / 2, 9, { align: 'center' });
-    doc.text('Emergency Medical Services: EBS', W / 2, 15, { align: 'center' });
+    doc.text('Department of Health and Wellness', W / 2, 10, { align: 'center' });
+    doc.text('Emergency Medical Services: EBS', W / 2, 16, { align: 'center' });
 
-    // EMS logo (right side — larger pill for readability)
+    // EMS logo — right-aligned (standardised 20×20 in 22×22 pill)
     if (window.LOGO_EMS) {
       try {
         doc.setFillColor(255, 255, 255);
-        doc.roundedRect(W - M - 22, 1, 22, 22, 2, 2, 'F');
-        doc.addImage(window.LOGO_EMS, 'PNG', W - M - 21, 2, 20, 20);
+        doc.roundedRect(W - M - 22, 2, 22, 20, 2, 2, 'F');
+        doc.addImage(window.LOGO_EMS, 'PNG', W - M - 21, 3, 20, 18);
       } catch(e) {}
-    } else {
-      doc.setFillColor(160, 0, 0);
-      doc.rect(W - 46, 0, 46, 24, 'F');
-      doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.setTextColor(255,255,255);
-      doc.text('METRO EMS', W - 23, 10, { align: 'center' });
-      doc.setFontSize(7); doc.setFont('helvetica','normal');
-      doc.text('Western Cape', W - 23, 16, { align: 'center' });
     }
 
     // Enquiries line

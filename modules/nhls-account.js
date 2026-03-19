@@ -59,55 +59,51 @@
 
     // ── HEADER: NHLS branding ──
     doc.setFillColor(166, 206, 57);
-    doc.rect(0, 0, W, 20, 'F');
+    doc.rect(0, 0, W, 22, 'F');
 
-    // NHLS logo (left)
+    // NHLS logo — left-aligned, smaller for crispness
     if (window.LOGO_NHLS) {
-      try { doc.addImage(window.LOGO_NHLS, 'JPEG', M, 2, 86, 16); } catch(e) {
+      try { doc.addImage(window.LOGO_NHLS, 'JPEG', M, 3, 55, 16); } catch(e) {
         doc.setTextColor(255,255,255);
         doc.setFontSize(14); doc.setFont('helvetica','bold');
-        doc.text('NHLS', M, 13);
+        doc.text('NHLS', M, 14);
       }
-    } else {
-      doc.setTextColor(255,255,255);
-      doc.setFontSize(14); doc.setFont('helvetica','bold');
-      doc.text('NHLS', M, 13);
     }
 
-    // WCG logo (right side of header)
+    // Centre contact text
+    const centerX = W / 2;
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(7); doc.setFont('helvetica', 'normal');
+    doc.text('IT Helpdesk: ITHelpdesk1@nhls.ac.za', centerX, 11, { align: 'center' });
+    doc.text('Tel: 011 386 6125', centerX, 16, { align: 'center' });
+
+    // WCG logo — right-aligned (standardised 50×18 in 52×20 pill)
     if (window.LOGO_WCG) {
       try {
         doc.setFillColor(255, 255, 255);
-        doc.roundedRect(W - M - 52, 2, 52, 16, 2, 2, 'F');
-        doc.addImage(window.LOGO_WCG, 'PNG', W - M - 51, 3, 50, 14);
+        doc.roundedRect(W - M - 52, 2, 52, 18, 2, 2, 'F');
+        doc.addImage(window.LOGO_WCG, 'PNG', W - M - 51, 3, 50, 16);
       } catch(e) {}
     }
-
-    // Contact text centred between logos
-    const centerX = (M + 90 + W - M - 52) / 2;
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(7); doc.setFont('helvetica', 'normal');
-    doc.text('IT Helpdesk: ITHelpdesk1@nhls.ac.za', centerX, 10, { align: 'center' });
-    doc.text('Tel: 011 386 6125', centerX, 15, { align: 'center' });
     doc.setTextColor(0, 0, 0);
 
     // Title bar
     doc.setFillColor(166, 206, 57);
-    doc.rect(M, 23, usableW, 9, 'F');
+    doc.rect(M, 25, usableW, 9, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(9);
     doc.setFont('helvetica', 'bold');
-    doc.text('Web Results ACCESS / REQUESTING DOCTOR APPLICATION', W / 2, 29, { align: 'center' });
+    doc.text('Web Results ACCESS / REQUESTING DOCTOR APPLICATION', W / 2, 31, { align: 'center' });
     doc.setTextColor(0, 0, 0);
 
     // Version & instruction
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(100, 100, 100);
-    doc.text('Form v8.4  |  PLEASE SIGN TERMS AND CONDITIONS ON PAGE 2', W / 2, 37, { align: 'center' });
+    doc.text('Form v8.4  |  PLEASE SIGN TERMS AND CONDITIONS ON PAGE 2', W / 2, 39, { align: 'center' });
     doc.setTextColor(0, 0, 0);
 
-    let y = 40;
+    let y = 43;
 
     // ── PRINT CLEARLY banner ──
     doc.setFillColor(235, 245, 210);

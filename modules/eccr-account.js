@@ -64,38 +64,38 @@
 
     // ── HEADER ──
     doc.setFillColor(...GRN);
-    doc.rect(0, 0, W, 20, 'F');
-    doc.setTextColor(...WHITE);
-    doc.setFontSize(13); doc.setFont('helvetica','bold');
-    doc.text('Department of Health', M, 9);
-    doc.setFontSize(8); doc.setFont('helvetica','normal');
-    doc.text('Departement van Gesondheid  |  iSebe lezeMoilo', M, 15);
+    doc.rect(0, 0, W, 22, 'F');
 
-    // WCG logo (right side of header)
+    // WCG logo — left-aligned
     if (window.LOGO_WCG) {
       try {
         doc.setFillColor(255, 255, 255);
-        doc.roundedRect(W - M - 52, 1, 52, 18, 2, 2, 'F');
-        doc.addImage(window.LOGO_WCG, 'PNG', W - M - 51, 2, 50, 16);
+        doc.roundedRect(M, 2, 52, 18, 2, 2, 'F');
+        doc.addImage(window.LOGO_WCG, 'PNG', M + 1, 3, 50, 16);
       } catch(e) {
+        doc.setTextColor(...WHITE);
         doc.setFontSize(9); doc.setFont('helvetica','bold');
-        doc.text('Western Cape Government', W - M, 12, { align: 'right' });
+        doc.text('Western Cape Government', M, 13);
       }
-    } else {
-      doc.setFontSize(9); doc.setFont('helvetica','bold');
-      doc.text('Western Cape Government', W - M, 12, { align: 'right' });
     }
+
+    // Centre text
+    doc.setTextColor(...WHITE);
+    doc.setFontSize(11); doc.setFont('helvetica','bold');
+    doc.text('Department of Health', W / 2, 10, { align: 'center' });
+    doc.setFontSize(7.5); doc.setFont('helvetica','normal');
+    doc.text('Departement van Gesondheid  |  iSebe lezeMoilo', W / 2, 16, { align: 'center' });
     doc.setTextColor(0, 0, 0);
 
     // Title bar
     doc.setFillColor(...GRN);
-    doc.rect(M, 23, usableW, 8, 'F');
+    doc.rect(M, 25, usableW, 8, 'F');
     doc.setTextColor(...WHITE);
     doc.setFontSize(9); doc.setFont('helvetica','bold');
-    doc.text('eCCR ACCESS CHANGE CONTROL FORM — INITIAL ACCESS REQUEST', W/2, 28.5, { align:'center' });
+    doc.text('eCCR ACCESS CHANGE CONTROL FORM — INITIAL ACCESS REQUEST', W/2, 30.5, { align:'center' });
     doc.setTextColor(0, 0, 0);
 
-    y = 35;
+    y = 37;
 
     // ── REQUEST TYPE ──
     lbl('Request Type', M, y, 36, 8);
