@@ -364,21 +364,16 @@ window.ChecklistCore = (() => {
         alert(`Please fill in all required fields:\n• ${missing.map(k => labelMap[k]).join('\n• ')}`);
         return null;
       }
-      // Mobile: exactly 10 digits
-      if (!/^\d{10}$/.test(d.mobile)) {
-        alert('Mobile Number must be exactly 10 digits (numbers only).');
-        return null;
-      }
-      // Email: must contain @ and .
-      if (!d.email.includes('@') || !d.email.includes('.')) {
-        alert('Please enter a valid Email Address (must include @ and .).');
-        return null;
-      }
-      // Supervisor email: must contain @ and .
-      if (!d.supervisorEmail.includes('@') || !d.supervisorEmail.includes('.')) {
-        alert('Please enter a valid Supervisor Email (must include @ and .).');
-        return null;
-      }
+      // Re-run field validation to show inline errors and block submit if invalid
+      const mobileEl = document.getElementById('f-mobile');
+      const emailEl  = document.getElementById('f-email');
+      const supEmailEl = document.getElementById('f-supervisor-email');
+      this.validateField(mobileEl, 'mobile');
+      this.validateField(emailEl, 'email');
+      this.validateField(supEmailEl, 'email');
+      if (!/^\d{10}$/.test(d.mobile)) return null;
+      if (!d.email.includes('@') || !d.email.includes('.')) return null;
+      if (!d.supervisorEmail.includes('@') || !d.supervisorEmail.includes('.')) return null;
       // If Other selected, also check first/surname fields directly
       const supVal = document.getElementById('f-supervisor')?.value;
       if (supVal === 'Other') {
@@ -565,6 +560,7 @@ window.ChecklistCore = (() => {
       if (allGood) allGood.style.display = 'none';
       const btnStep3 = document.getElementById('btn-step3');
       if (btnStep3) btnStep3.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 })();

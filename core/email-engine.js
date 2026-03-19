@@ -25,8 +25,6 @@ window.EmailEngine = {
       `New Request - ${itemLabel} Application - ${fullName}`
     );
 
-    const disclaimer = `\n\n---\nThis email has been auto-generated and may contain errors. Please confirm that the information is correct before proceeding. Please ignore and delete this email if you are not the intended recipient or have received this email in error.`;
-
     const body = encodeURIComponent(
 `Dear ${supervisorName}
 
@@ -39,7 +37,7 @@ Please email ${adminEmail} with the signed application once completed. I would a
 Thank you for your assistance. The document for signature is attached to this email.
 
 Kind regards,
-${firstName} ${lastName}${disclaimer}`
+${firstName} ${lastName}`
     );
 
     return `mailto:${toEmail}?cc=${encodeURIComponent(ccEmail)}&subject=${subject}&body=${body}`;
