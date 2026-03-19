@@ -446,7 +446,7 @@ window.ChecklistCore = (() => {
       const card = document.getElementById('step2-card');
       if (card) {
         card.style.display = 'block';
-        setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+        setTimeout(() => { const top = card.getBoundingClientRect().top + window.scrollY - 72; window.scrollTo({ top, behavior: 'smooth' }); }, 50);
       }
       // Show Step 3 button only if there are PDF/email modules needing action
       const actionNeeded = selections.some(s => s.needsAccount && !s.module.isRedirect);
@@ -506,7 +506,7 @@ window.ChecklistCore = (() => {
       const card = document.getElementById('step3-card');
       if (card) {
         card.style.display = 'block';
-        setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+        setTimeout(() => { const top = card.getBoundingClientRect().top + window.scrollY - 72; window.scrollTo({ top, behavior: 'smooth' }); }, 50);
       }
     },
 
