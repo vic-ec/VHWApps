@@ -365,15 +365,24 @@ window.ChecklistCore = (() => {
         return null;
       }
       // Re-run field validation to show inline errors and block submit if invalid
-      const mobileEl = document.getElementById('f-mobile');
-      const emailEl  = document.getElementById('f-email');
+      const mobileEl   = document.getElementById('f-mobile');
+      const emailEl    = document.getElementById('f-email');
       const supEmailEl = document.getElementById('f-supervisor-email');
       this.validateField(mobileEl, 'mobile');
       this.validateField(emailEl, 'email');
       this.validateField(supEmailEl, 'email');
-      if (!/^\d{10}$/.test(d.mobile)) return null;
-      if (!d.email.includes('@') || !d.email.includes('.')) return null;
-      if (!d.supervisorEmail.includes('@') || !d.supervisorEmail.includes('.')) return null;
+
+      const firstInvalid =
+        (!/^\d{10}$/.test(d.mobile)                                     ? mobileEl   : null) ||
+        (!d.email.includes('@') || !d.email.includes('.')               ? emailEl    : null) ||
+        (!d.supervisorEmail.includes('@') || !d.supervisorEmail.includes('.') ? supEmailEl : null);
+
+      if (firstInvalid) {
+        const top = firstInvalid.getBoundingClientRect().top + window.scrollY - 120;
+        window.scrollTo({ top, behavior: 'smooth' });
+        firstInvalid.focus();
+        return null;
+      }
       // If Other selected, also check first/surname fields directly
       const supVal = document.getElementById('f-supervisor')?.value;
       if (supVal === 'Other') {
