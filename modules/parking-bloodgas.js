@@ -28,7 +28,7 @@
     const fullName   = [userData.title, userData.name, userData.secondName, userData.surname].filter(Boolean).join(' ');
     const dept       = userData.department || 'N/A';
     const adminEmail = 'Janine.Theunissen@westerncape.gov.za';
-    const cc         = encodeURIComponent(userData.email || '');
+    const cc         = encodeURIComponent([userData.email, userData.supervisorEmail].filter(Boolean).join('; '));
     const subject    = encodeURIComponent('New Request - Hospital Parking Disc - ' + fullName);
     const body = encodeURIComponent(
 'Dear Administrator\n\nPlease can you assist me with a parking disc:\n\n' +

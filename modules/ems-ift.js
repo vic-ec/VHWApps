@@ -30,7 +30,7 @@
     const today  = `${String(todayD.getDate()).padStart(2,'0')}/${String(todayD.getMonth()+1).padStart(2,'0')}/${todayD.getFullYear()}`;
 
     // ── HEADER ──
-    doc.setFillColor(0, 83, 141);
+    doc.setFillColor(255, 255, 255);
     doc.rect(0, 10, W, 24, 'F');
 
     // WCG logo — left-aligned (standardised 50×18 in 52×20 pill)
@@ -47,7 +47,7 @@
     }
 
     // Centre text
-    doc.setTextColor(255, 255, 255);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(8); doc.setFont('helvetica', 'normal');
     doc.text('Department of Health and Wellness', W / 2, 20, { align: 'center' });
     doc.text('Emergency Medical Services: EBS', W / 2, 26, { align: 'center' });
@@ -221,8 +221,14 @@
     doc.setTextColor(0, 0, 0);
     y += 18;
 
-    // ── Signature table ──
-    const sigCols = [34, 52, 62, 34];
+    // ── Signature table ── columns sum to usableW exactly, evenly distributed
+    const roleW = Math.round(usableW * 0.22);
+    const nameW = Math.round(usableW * 0.28);
+    const sigW  = Math.round(usableW * 0.28);
+    const dateW = usableW - roleW - nameW - sigW;
+    const sigCols = [roleW, nameW, sigW, dateW];
+    // Ensure last col fills any rounding gap
+    sigCols[3] = usableW - sigCols[0] - sigCols[1] - sigCols[2];
     const sigLabels = ['', 'Print Name', 'Signature', 'Date'];
 
     // Header row
@@ -293,10 +299,13 @@
       doc.setDrawColor(160, 160, 160);
       doc.setLineWidth(0.3);
       doc.rect(sx, y, sigCols[i], 12, 'D');
-      doc.setFontSize(7.5);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(0, 0, 0);
-      if (val) doc.text(val, sx + 2, y + 7.5);
+      if (val) {
+        doc.setFontSize(7.5);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(0, 0, 0);
+        const wrapped = doc.splitTextToSize(val, sigCols[i] - 4);
+        wrapped.forEach((line, li) => doc.text(line, sx + 2, y + 5 + li * 4));
+      }
       sx += sigCols[i];
     });
 

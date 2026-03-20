@@ -63,7 +63,7 @@
     let y = 0;
 
     // ── HEADER ──
-    doc.setFillColor(...GRN);
+    doc.setFillColor(255, 255, 255);
     doc.rect(0, 10, W, 22, 'F');
 
     // WCG logo — left-aligned
@@ -80,12 +80,11 @@
     }
 
     // Centre text
-    doc.setTextColor(...WHITE);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(11); doc.setFont('helvetica','bold');
     doc.text('Department of Health', W / 2, 20, { align: 'center' });
     doc.setFontSize(7.5); doc.setFont('helvetica','normal');
     doc.text('Departement van Gesondheid  |  iSebe lezeMoilo', W / 2, 26, { align: 'center' });
-    doc.setTextColor(0, 0, 0);
 
     // Title bar
     doc.setFillColor(...GRN);
@@ -201,7 +200,7 @@
 
     // Footer
     doc.setFontSize(7); doc.setTextColor(150,150,150);
-    doc.text('eCCR Access Change Control Form  |  Version 5  |  Victoria Hospital EC', W/2, y+4, { align:'center' });
+    doc.text('eCCR Access Change Control Form', W/2, y+4, { align:'center' });
 
     PDFEngine.save(doc, `eCCR_Access_Request_${userData.surname}_${userData.name}.pdf`);
   }
