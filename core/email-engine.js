@@ -49,7 +49,7 @@ ${firstName} ${lastName}`
     const userEmail       = userData.email || '';
     const supervisorEmail = userData.supervisorEmail || '';
 
-    const cc = [userEmail, supervisorEmail].filter(Boolean).join('; ');
+    const cc = [userEmail, supervisorEmail].filter(Boolean).join(',');
 
     const prefix = subjectPrefix || 'New User Request -';
     const subject = encodeURIComponent(
