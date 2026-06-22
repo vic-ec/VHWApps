@@ -78,7 +78,7 @@
     const password  = document.getElementById('bg-password')?.value?.trim() || 'N/A';
     const fullName  = [userData.name, userData.secondName, userData.surname].filter(Boolean).join(' ');
     const dept      = userData.department || 'N/A';
-    const to        = 'philip.cloete@westerncape.gov.za; sebastian.dehaan@westerncape.gov.za; paul.xafis@westerncape.gov.za';
+    const to        = encodeURIComponent('philip.cloete@westerncape.gov.za;sebastian.dehaan@westerncape.gov.za;paul.xafis@westerncape.gov.za');
     const cc        = encodeURIComponent(userData.email || '');
     const subject   = encodeURIComponent('New Request - Blood Gas Machine Profile - ' + (userData.title ? userData.title + ' ' : '') + (userData.name || '') + ' ' + (userData.surname || ''));
     const body = encodeURIComponent(
