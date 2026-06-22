@@ -28,7 +28,7 @@
     const fullName   = [userData.title, userData.name, userData.secondName, userData.surname].filter(Boolean).join(' ');
     const dept       = userData.department || 'N/A';
     const adminEmail = 'Janine.Theunissen@westerncape.gov.za';
-    const cc         = encodeURIComponent([userData.email, userData.supervisorEmail].filter(Boolean).join('; '));
+    const cc         = encodeURIComponent([userData.email, userData.supervisorEmail].filter(Boolean).join(','));
     const subject    = encodeURIComponent('New Request - Hospital Parking Disc - ' + fullName);
     const body = encodeURIComponent(
 'Dear Administrator\n\nPlease can you assist me with a parking disc:\n\n' +
@@ -78,7 +78,7 @@
     const password  = document.getElementById('bg-password')?.value?.trim() || 'N/A';
     const fullName  = [userData.name, userData.secondName, userData.surname].filter(Boolean).join(' ');
     const dept      = userData.department || 'N/A';
-    const to        = encodeURIComponent('philip.cloete@westerncape.gov.za;sebastian.dehaan@westerncape.gov.za;paul.xafis@westerncape.gov.za');
+    const to        = encodeURIComponent('philip.cloete@westerncape.gov.za,sebastian.dehaan@westerncape.gov.za,paul.xafis@westerncape.gov.za');
     const cc        = encodeURIComponent(userData.email || '');
     const subject   = encodeURIComponent('New Request - Blood Gas Machine Profile - ' + (userData.title ? userData.title + ' ' : '') + (userData.name || '') + ' ' + (userData.surname || ''));
     const body = encodeURIComponent(
